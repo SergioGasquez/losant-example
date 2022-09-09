@@ -26,6 +26,19 @@ jobs:
         run: rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
+      - name: Setup | cargo-generate (cargo)
+        if: steps.cargo-generate-binary.outcome != 'success'
+        run: cargo install cargo-generate
+      - name: Setup | ldpoxy (binary)
+        id: ldproxy-binary
+        continue-on-error: true
+        run: |
+          sudo curl -L "https://github.com/esp-rs/embuild/releases/latest/download/ldproxy-x86_64-unknown-linux-gnu.zip" -o "/home/runner/.cargo/bin/ldproxy.zip"
+          unzip "/home/runner/.cargo/bin/ldproxy.zip" -d "/home/runner/.cargo/bin/"
+          chmod u+x /home/runner/.cargo/bin/ldproxy
+      - name: Setup | ldproxy (cargo)
+        if: steps.ldproxy-binary.outcome != 'success'
+        run: cargo install ldproxy
       - name: Build
         run: cargo build --release
       - name: Format check
