@@ -1,0 +1,29 @@
+name: Build check
+
+on:
+  push:
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-idf-env:
+    name: Build idf-env
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get install libudev-dev
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Update Rust toolchain
+        run: rustup update stable && rustup default stable
+      - name: Enable caching
+        uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build --release
+      - name: Format check
+        run: cargo fmt -- --check
+      - name: Clippy check
+        run: cargo clippy --no-deps -- -Dwarnings
