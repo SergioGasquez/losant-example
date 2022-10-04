@@ -21,9 +21,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
-          components: rustfmt, clippy
-      - name: Setup | Std
-        run: rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
+          components: rustfmt, clippy, rust-src
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
       - name: Setup | ldproxy (binary)
