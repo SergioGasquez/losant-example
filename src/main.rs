@@ -21,6 +21,8 @@ use shared_bus::BusManagerSimple;
 use shtcx::{shtc3, PowerMode};
 use std::{sync::Arc, thread, thread::sleep, time::Duration};
 
+const LOSANT_BROKER_URL: &str = "mqtt://broker.losant.com:1883";
+
 #[derive(Serialize, Deserialize)]
 struct Data {
     tempareture: f32,
@@ -82,8 +84,7 @@ fn main() -> anyhow::Result<()> {
         keep_alive_interval: Some(Duration::from_secs(120)),
         ..Default::default()
     };
-    let (mut client, mut connection) =
-        EspMqttClient::new_with_conn("mqtt://broker.losant.com:1883", &conf)?;
+    let (mut client, mut connection) = EspMqttClient::new_with_conn(LOSANT_BROKER_URL, &conf)?;
     info!("Connected");
     thread::spawn(move || {
         info!("MQTT Listening for messages");
