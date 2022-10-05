@@ -1,4 +1,7 @@
 # Losant Example
+
+[![Continuous Integration](https://github.com/SergioGasquez/losant-example/actions/workflows/ci.yaml/badge.svg)](https://github.com/SergioGasquez/losant-example/actions/workflows/ci.yaml)
+
 Simple example built for [esp-rust-board](https://github.com/esp-rs/esp-rust-board) that sends temperature and humidity to
 Losant, via MQTT, where it can be [visualized in this dashboard](https://app.losant.com/dashboards/6317314b80eae13991afeb09).
 
